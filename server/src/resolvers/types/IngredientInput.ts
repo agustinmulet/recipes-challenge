@@ -1,4 +1,4 @@
-import { InputType, Field, Int, ID } from "type-graphql";
+import { InputType, Field, ID, Float } from "type-graphql";
 
 @InputType()
 export class IngredientInput {
@@ -8,7 +8,7 @@ export class IngredientInput {
   @Field(() => String)
   name: string;
 
-  @Field(() => Int)
+  @Field(() => Float)
   amount: number;
 
   @Field(() => String)
