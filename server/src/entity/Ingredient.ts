@@ -24,6 +24,10 @@ export class Ingredient extends BaseEntity {
   @Column("float")
   amount: number;
 
+  @Field(() => String)
+  @Column("text")
+  unit: string;
+
   // Relations
   @ManyToOne(() => Recipe)
   recipe: Recipe;

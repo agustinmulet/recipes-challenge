@@ -10,4 +10,7 @@ export class IngredientInput {
 
   @Field(() => Int)
   amount: number;
+
+  @Field(() => String)
+  unit: string;
 }

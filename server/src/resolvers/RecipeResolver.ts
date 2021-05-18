@@ -96,6 +96,7 @@ export class RecipeResolver implements ResolverInterface<Recipe> {
       recipe,
       name: ingrediendInput.name,
       amount: ingrediendInput.amount,
+      unit: ingrediendInput.unit,
     });
     recipe.ingredients.push(newIngredient);
 
