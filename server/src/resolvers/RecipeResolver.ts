@@ -5,7 +5,6 @@ import {
   Arg,
   Root,
   Mutation,
-  Int,
   ResolverInterface,
 } from "type-graphql";
 import { ILike } from "typeorm";
