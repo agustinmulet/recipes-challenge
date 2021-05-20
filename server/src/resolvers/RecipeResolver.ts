@@ -21,7 +21,7 @@ import { IngredientInput } from "./types/IngredientInput";
 @Resolver(() => Recipe)
 export class RecipeResolver implements ResolverInterface<Recipe> {
   @Query(() => Recipe, { nullable: true })
-  recipe(@Arg("recipeId", () => Int) recipeId: number) {
+  recipe(@Arg("recipeId", () => String) recipeId: string) {
     return Recipe.findOne(recipeId);
   }
 
