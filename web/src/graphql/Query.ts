@@ -1,8 +1,14 @@
 import { gql } from "@apollo/client";
 
-export const SEARCH_RECIPE = gql`
-  query searchRecipe($searchTerm: String!) {
-    searchRecipe(searchTerm: $searchTerm) {
+export const GET_RECIPES = gql`
+  query getRecipes(
+    $searchTerm: String,
+    $order: String
+    ) {
+    recipes(
+      searchTerm: $searchTerm,
+      order: $order
+    ) {
       id
       name
       averageRating
@@ -28,6 +34,7 @@ export const RECIPE_BY_ID = gql`
 export const RATE_RECIPE = gql`
   mutation rateRecipe($rate: Int!, $recipeId: ID!) {
     rate(rate: { value: $rate, recipeId: $recipeId }) {
+      id
       name
       averageRating
     }

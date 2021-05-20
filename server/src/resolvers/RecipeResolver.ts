@@ -16,6 +16,7 @@ import { Ingredient } from "../entity/Ingredient";
 import { RecipeInput } from "./types/RecipeInput";
 import { RateInput } from "./types/RateInput";
 import { IngredientInput } from "./types/IngredientInput";
+import { calculateAverage } from "../utils";
 
 @Resolver(() => Recipe)
 export class RecipeResolver implements ResolverInterface<Recipe> {
@@ -25,32 +26,46 @@ export class RecipeResolver implements ResolverInterface<Recipe> {
   }
 
   @Query(() => [Recipe], { nullable: true })
-  searchRecipe(@Arg("searchTerm", () => String) searchTerm: string) {
-    return Recipe.find({
-      where: {
-        name: ILike(`%${searchTerm}%`),
-      },
-    });
-  }
-
-  @Query(() => [Recipe], { nullable: true })
   async recipes(
-    @Arg("order", () => String, { defaultValue: "ASC", nullable: true }) orderBy: "ASC" | "DESC" | 1 | -1 | undefined,
+    @Arg("order", () => String, { nullable: true }) orderBy: "ASC" | "DESC" | 1 | -1 | undefined,
     @Arg("skip", { defaultValue: 0, nullable: true }) skip: number,
-    @Arg("take", { defaultValue: 100, nullable: true }) take: number
+    @Arg("take", { defaultValue: 100, nullable: true }) take: number,
+    @Arg("searchTerm", () => String, { nullable: true }) searchTerm: string
   ) {
+    // Set loadEagerRelations by default to load rates
+    let options = {
+      loadEagerRelations: true,
+      where: {},
+    };
+
+    if (searchTerm) {
+      options = {
+        ...options,
+        where: {
+          ...options.where,
+          name: ILike(`%${searchTerm}%`),
+        }
+      }
+    }
+
     const recipes = await Recipe.find({
-      skip,
-      take,
+      ...options,
     });
-    // TODO: Fix sort, this is not working.
-    // averageRating is generated later.
-    const sortedRecipes = recipes.sort((a, b) =>
-      orderBy === "ASC"
-        ? a.averageRating - b.averageRating
-        : b.averageRating - a.averageRating
-    );
-    return sortedRecipes;
+
+    if (orderBy) {
+      const sortedRecipes = recipes.map(recipe => ({
+        ...recipe,
+        averageRating: calculateAverage(recipe),
+      })).sort((a, b) =>
+        orderBy === "ASC"
+          ? a.averageRating - b.averageRating
+          : b.averageRating - a.averageRating
+      );
+
+      return sortedRecipes.slice(skip, take);
+    }
+
+    return recipes;
   }
 
   @Mutation(() => Recipe)
@@ -121,8 +136,7 @@ export class RecipeResolver implements ResolverInterface<Recipe> {
 
   @FieldResolver()
   averageRating(@Root() recipe: Recipe) {
-    const sum = recipe.ratings.reduce((acc, rate) => acc + rate.value, 0);
-    return recipe.ratings.length ? sum / recipe.ratings.length : 0;
+    return calculateAverage(recipe);
   }
 
 }

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Box, Text, VStack, Grid, Input } from "@chakra-ui/react";
 import { useLazyQuery } from "@apollo/client";
-import { SEARCH_RECIPE } from "../graphql/Query";
+import { GET_RECIPES } from "../graphql/Query";
 import useDebounce from "../hooks/useDebounce";
 import RecipesList from "../components/RecipesList";
 
@@ -9,7 +9,7 @@ const Home: React.FC = () => {
   const [value, setValue] = React.useState<string>("");
   const debouncedValue = useDebounce<string>(value);
 
-  const [getRecipe, { loading, error, data }] = useLazyQuery(SEARCH_RECIPE);
+  const [getRecipes, { loading, error, data }] = useLazyQuery(GET_RECIPES);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value);
@@ -17,7 +17,9 @@ const Home: React.FC = () => {
 
   React.useEffect(() => {
     if (debouncedValue.trim().length > 2) {
-      getRecipe({ variables: { searchTerm: debouncedValue.trim() } });
+      getRecipes({ variables: { searchTerm: debouncedValue.trim() } });
+    } else {
+      getRecipes();
     }
   }, [debouncedValue]);
 
@@ -31,13 +33,13 @@ const Home: React.FC = () => {
             value={value}
             onChange={handleChange}
             maxW="50vw"
-            placeholder="Search..."
+            placeholder="Please start writing to search 🥕🍕"
           />
           <Box textAlign="center" fontSize="xl">
             <Grid minH="60vh" px={2} justifyItems="center" alignItems="center">
               <RecipesList
                 loading={loading}
-                recipes={data?.searchRecipe}
+                recipes={data?.recipes}
                 error={error}
               />
             </Grid>

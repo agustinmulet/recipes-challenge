@@ -40,8 +40,6 @@ const RecipesList: React.FC<Props> = ({ loading, recipes, error }) => {
     return <Text>There was an error trying to fetch the recipes.</Text>;
   }
 
-  if (!recipes) return <Text>Please start writing to search 🥕🍕</Text>;
-
   return recipes?.length ? (
     <Box borderRadius="lg" border="1px" p={3}>
       <Table variant="simple" maxW="50vw" size="lg">
@@ -72,7 +70,7 @@ const RecipesList: React.FC<Props> = ({ loading, recipes, error }) => {
       </Table>
     </Box>
   ) : (
-    <Text>No recipes found</Text>
+    <Text>No recipes found 😢</Text>
   );
 };
 
