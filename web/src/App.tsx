@@ -11,6 +11,7 @@ import {
 import { ColorModeSwitcher } from "./ColorModeSwitcher";
 
 import Home from "./pages/Home";
+import Recipe from "./pages/Recipe";
 
 export const App = () => (
   <Router>
@@ -28,6 +29,9 @@ export const App = () => (
       </Flex>
 
       <Switch>
+        <Route path="/recipe/:id">
+          <Recipe />
+        </Route>
         <Route path="/">
           <Home />
         </Route>

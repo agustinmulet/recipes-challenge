@@ -1,6 +1,7 @@
 import * as React from "react";
 import {
   Box,
+  Link as ChakraLink,
   Spinner,
   Table,
   TableCaption,
@@ -12,13 +13,9 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import { StarIcon } from "@chakra-ui/icons";
+import { Link } from "react-router-dom";
 
-interface Recipe {
-  __typename: string;
-  name: string;
-  id: string;
-  averageRating: number;
-}
+import { Recipe } from "../graphql/Types";
 
 interface Props {
   loading: boolean;
@@ -60,9 +57,14 @@ const RecipesList: React.FC<Props> = ({ loading, recipes, error }) => {
         <Tbody>
           {recipes?.map((recipe) => (
             <Tr key={recipe.id}>
-              <Td>{recipe.name}</Td>
               <Td>
-                {recipe.averageRating} <StarIcon mt="auto" mb="3px" />
+                <ChakraLink as={Link} to={`/recipe/${recipe.id}`}>
+                  {recipe.name}
+                </ChakraLink>
+              </Td>
+              <Td>
+                {recipe.averageRating.toFixed(2)}{" "}
+                <StarIcon mt="auto" mb="3px" />
               </Td>
             </Tr>
           ))}
