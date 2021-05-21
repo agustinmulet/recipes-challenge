@@ -3,11 +3,15 @@ import { gql } from "@apollo/client";
 export const GET_RECIPES = gql`
   query getRecipes(
     $searchTerm: String,
-    $order: String
+    $order: String,
+    $skip: Int,
+    $take: Int
     ) {
     recipes(
       searchTerm: $searchTerm,
-      order: $order
+      order: $order,
+      skip: $skip,
+      take: $take
     ) {
       id
       name
@@ -27,6 +31,7 @@ export const RECIPE_BY_ID = gql`
         amount
         unit
       }
+      averageRating
     }
   }
 `;

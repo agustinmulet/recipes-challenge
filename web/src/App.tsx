@@ -4,38 +4,55 @@ import {
   Flex,
   Spacer,
   Link as ChakraLink,
-  List,
-  ListItem,
   Text,
+  HStack,
 } from "@chakra-ui/layout";
 import { ColorModeSwitcher } from "./ColorModeSwitcher";
 
 import Home from "./pages/Home";
 import Recipe from "./pages/Recipe";
+import TopWorst from "./pages/TopWorst";
 
-export const App = () => (
+const App: React.FC = () => (
   <Router>
-    <div>
-      <Flex p={2}>
-        <List p={3}>
-          <ListItem>
-            <ChakraLink as={Link} to="/">
-              <Text>Home</Text>
-            </ChakraLink>
-          </ListItem>
-        </List>
-        <Spacer />
-        <ColorModeSwitcher justifySelf="flex-end" />
-      </Flex>
+    <Flex p={2}>
+      <HStack p={3} spacing={4}>
+        <ChakraLink
+          as={Link}
+          to="/"
+          _hover={{
+            textDecoration: "line-through",
+          }}
+        >
+          <Text fontWeight="bold">Home</Text>
+        </ChakraLink>
 
-      <Switch>
-        <Route path="/recipe/:id">
-          <Recipe />
-        </Route>
-        <Route path="/">
-          <Home />
-        </Route>
-      </Switch>
-    </div>
+        <ChakraLink
+          as={Link}
+          to="/topworst"
+          _hover={{
+            textDecoration: "line-through",
+          }}
+        >
+          <Text fontWeight="bolder">Top/Worst</Text>
+        </ChakraLink>
+      </HStack>
+      <Spacer />
+      <ColorModeSwitcher justifySelf="flex-end" />
+    </Flex>
+
+    <Switch>
+      <Route path="/topworst">
+        <TopWorst />
+      </Route>
+      <Route path="/recipe/:id">
+        <Recipe />
+      </Route>
+      <Route path="/">
+        <Home />
+      </Route>
+    </Switch>
   </Router>
 );
+
+export default App;

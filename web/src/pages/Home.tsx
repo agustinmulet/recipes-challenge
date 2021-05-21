@@ -1,9 +1,12 @@
 import * as React from "react";
 import { Box, Text, VStack, Grid, Input } from "@chakra-ui/react";
 import { useLazyQuery } from "@apollo/client";
-import { GET_RECIPES } from "../graphql/Query";
-import useDebounce from "../hooks/useDebounce";
+
 import RecipesList from "../components/RecipesList";
+
+import useDebounce from "../hooks/useDebounce";
+
+import { GET_RECIPES } from "../graphql/Query";
 
 const Home: React.FC = () => {
   const [value, setValue] = React.useState<string>("");
@@ -41,6 +44,7 @@ const Home: React.FC = () => {
                 loading={loading}
                 recipes={data?.recipes}
                 error={error}
+                title= "Found recipes"
               />
             </Grid>
           </Box>

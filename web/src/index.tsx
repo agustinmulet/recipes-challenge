@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import { App } from "./App";
+import App from "./App";
 import { ChakraProvider, theme, ColorModeScript } from "@chakra-ui/react";
 import { ApolloClient, InMemoryCache, ApolloProvider, defaultDataIdFromObject } from "@apollo/client";
 

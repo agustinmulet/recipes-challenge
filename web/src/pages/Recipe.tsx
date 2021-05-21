@@ -84,7 +84,7 @@ const Recipe: React.FC = () => {
     const { recipe } = data;
     content = (
       <VStack spacing={4}>
-        <Text fontSize="2xl">{recipe.name}</Text>
+        <Text fontSize="2xl">{recipe.name} - {recipe.averageRating.toFixed(2)} ⭐</Text>
         <Tabs isFitted variant="enclosed">
           <TabList mb="1em">
             <Tab>Ingredients</Tab>

@@ -6,6 +6,7 @@ import {
   Root,
   Mutation,
   ResolverInterface,
+  Int,
 } from "type-graphql";
 import { ILike } from "typeorm";
 
@@ -28,8 +29,8 @@ export class RecipeResolver implements ResolverInterface<Recipe> {
   @Query(() => [Recipe], { nullable: true })
   async recipes(
     @Arg("order", () => String, { nullable: true }) orderBy: "ASC" | "DESC" | 1 | -1 | undefined,
-    @Arg("skip", { defaultValue: 0, nullable: true }) skip: number,
-    @Arg("take", { defaultValue: 100, nullable: true }) take: number,
+    @Arg("skip", () => Int, { defaultValue: 0, nullable: true }) skip: number,
+    @Arg("take", () => Int, { defaultValue: 100, nullable: true }) take: number,
     @Arg("searchTerm", () => String, { nullable: true }) searchTerm: string
   ) {
     // Set loadEagerRelations by default to load rates

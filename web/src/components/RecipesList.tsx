@@ -21,9 +21,10 @@ interface Props {
   loading: boolean;
   recipes: Recipe[];
   error: any;
+  title?: string;
 }
 
-const RecipesList: React.FC<Props> = ({ loading, recipes, error }) => {
+const RecipesList: React.FC<Props> = ({ loading, recipes, error, title }) => {
   if (loading)
     return (
       <Spinner
@@ -43,9 +44,11 @@ const RecipesList: React.FC<Props> = ({ loading, recipes, error }) => {
   return recipes?.length ? (
     <Box borderRadius="lg" border="1px" p={3}>
       <Table variant="simple" maxW="50vw" size="lg">
-        <TableCaption mt={0} placement="top">
-          Found Recipes
-        </TableCaption>
+        {title && (
+          <TableCaption mt={0} placement="top">
+            {title}
+          </TableCaption>
+        )}
         <Thead>
           <Tr>
             <Th>Recipe</Th>
